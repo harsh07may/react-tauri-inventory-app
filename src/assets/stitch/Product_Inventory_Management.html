@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Product Inventory Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0d7ff2",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<div class="relative flex h-full min-h-screen w-full overflow-hidden">
+<aside class="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 h-screen sticky top-0">
+<div class="flex items-center gap-3 px-6 py-4 border-b border-slate-100 dark:border-slate-800 h-[72px]">
+<div class="size-8 flex items-center justify-center rounded bg-primary/10 text-primary">
+<span class="material-symbols-outlined" style="font-size: 20px;">storefront</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em] text-slate-900 dark:text-white">ShopManager Pro</h2>
+</div>
+<nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary rounded-md transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+                    Dashboard
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/5 text-primary rounded-md transition-colors text-sm font-medium border-l-4 border-primary" href="#">
+<span class="material-symbols-outlined text-[20px]">inventory_2</span>
+                    Inventory
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary rounded-md transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">receipt_long</span>
+                    Billing
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary rounded-md transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">bar_chart</span>
+                    Reports
+                </a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary dark:hover:text-primary rounded-md transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                    Settings
+                </a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-8 border border-slate-200 dark:border-slate-700 shrink-0" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBmvJtCgsZ3do_3an5vURZZ5Q7_uHyVQaHiYLemUmzf9aYywzEAKO_ZyZeZdUJcYBAWHOWakhv_LZckFbUz6YCYs5FwqbrWKGznaLe2_tTxMr1Sidp6sFz2Y-ffoSnIzr85uhcRXAD6UwbzJy1GenJ6U-tK43BuCjT14WTm72DJxu39Ac4z3HSC4CxPw5pTa8DpQH7xDTntv9Zx_FzHBqaY30ccgkGc-9BcmkViVxdQunum44JAp8EllzdkuvDgodzOV2M7GSAgZUY");'></div>
+<div class="flex flex-col min-w-0">
+<span class="text-sm font-medium text-slate-900 dark:text-white truncate">Alex Morgan</span>
+<span class="text-xs text-slate-500 dark:text-slate-400 truncate">Store Admin</span>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex-1 flex flex-col h-full min-h-screen overflow-x-hidden">
+<header class="md:hidden flex items-center justify-between border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 sticky top-0 z-20">
+<div class="flex items-center gap-3">
+<div class="size-8 flex items-center justify-center rounded bg-primary/10 text-primary">
+<span class="material-symbols-outlined" style="font-size: 20px;">storefront</span>
+</div>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">ShopManager</h2>
+</div>
+<button class="p-1 text-slate-500">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<header class="hidden md:flex items-center justify-end px-6 py-3 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-[72px]">
+<div class="flex items-center gap-4">
+<button class="relative flex items-center justify-center text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex flex-col p-6 w-full max-w-[1600px] mx-auto">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Inventory</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Manage stock levels, prices, and product details.</p>
+</div>
+<div class="flex flex-wrap gap-3 items-center">
+<button class="flex items-center justify-center gap-2 rounded bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2 text-slate-700 dark:text-slate-200 text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">download</span>
+<span>Export CSV</span>
+</button>
+<button class="flex items-center justify-center gap-2 rounded bg-primary px-4 py-2 text-white text-sm font-bold shadow-md hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 20px;">add</span>
+<span>Add Product</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 mb-4 bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm border border-slate-200 dark:border-slate-700">
+<div class="md:col-span-5 lg:col-span-6 relative">
+<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary sm:text-sm" placeholder="Search by product name, SKU, or barcode..." type="text"/>
+</div>
+<div class="md:col-span-3 lg:col-span-2">
+<select class="block w-full py-2 pl-3 pr-10 border border-slate-300 dark:border-slate-600 rounded bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary sm:text-sm">
+<option>All Categories</option>
+<option>Apparel</option>
+<option>Footwear</option>
+<option>Accessories</option>
+<option>Electronics</option>
+</select>
+</div>
+<div class="md:col-span-3 lg:col-span-2">
+<select class="block w-full py-2 pl-3 pr-10 border border-slate-300 dark:border-slate-600 rounded bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary sm:text-sm">
+<option>Stock Status</option>
+<option>In Stock</option>
+<option>Low Stock</option>
+<option>Out of Stock</option>
+</select>
+</div>
+<div class="md:col-span-1 lg:col-span-2 flex justify-end">
+<button class="flex w-full md:w-auto items-center justify-center gap-2 rounded bg-slate-100 dark:bg-slate-700 px-4 py-2 text-slate-600 dark:text-slate-300 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors" title="Filter Settings">
+<span class="material-symbols-outlined" style="font-size: 20px;">filter_list</span>
+<span class="md:hidden">Filters</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-hidden rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm flex flex-col mb-6">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700 uppercase tracking-wider text-xs font-semibold">
+<tr>
+<th class="px-6 py-3 w-12" scope="col">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</th>
+<th class="px-6 py-3" scope="col">Product Name</th>
+<th class="px-6 py-3" scope="col">SKU</th>
+<th class="px-6 py-3" scope="col">Category</th>
+<th class="px-6 py-3 text-right" scope="col">Selling Price</th>
+<th class="px-6 py-3 text-center" scope="col">Qty</th>
+<th class="px-6 py-3" scope="col">Status</th>
+<th class="px-6 py-3 text-right" scope="col">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-700">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">apparel</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Premium Cotton T-Shirt</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">TSH-001-BLK</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Apparel</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$19.99</td>
+<td class="px-6 py-2.5 text-center text-slate-600 dark:text-slate-300">145</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> In Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group bg-red-50/30 dark:bg-red-900/5">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">checkroom</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Leather Belt - Brown</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">ACC-099-BRN</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Accessories</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$25.00</td>
+<td class="px-6 py-2.5 text-center font-bold text-red-600 dark:text-red-400">4</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 dark:bg-red-900/20 px-2 py-0.5 text-xs font-medium text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800 animate-pulse">
+<span class="size-1.5 rounded-full bg-red-500"></span> Low Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">steps</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Canvas Sneakers</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">SNK-104-WHT</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Footwear</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$32.50</td>
+<td class="px-6 py-2.5 text-center text-slate-600 dark:text-slate-300">12</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 text-xs font-medium text-amber-700 dark:text-amber-400 border border-amber-100 dark:border-amber-800">
+<span class="size-1.5 rounded-full bg-amber-500"></span> Reorder Soon
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">styler</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Slim Fit Jeans</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">JNS-023-BLU</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Apparel</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$45.00</td>
+<td class="px-6 py-2.5 text-center text-slate-600 dark:text-slate-300">89</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> In Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group opacity-60">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">checkroom</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100 line-through decoration-slate-400">Wool Scarf</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">SCF-888-GRY</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Accessories</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$22.00</td>
+<td class="px-6 py-2.5 text-center font-bold text-slate-500">0</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 dark:bg-slate-700 px-2 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-600">
+<span class="size-1.5 rounded-full bg-slate-500"></span> Out of Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">dry_cleaning</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Running Socks (3-pack)</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">SCK-555-MIX</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Apparel</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$12.00</td>
+<td class="px-6 py-2.5 text-center text-slate-600 dark:text-slate-300">200</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> In Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group bg-red-50/30 dark:bg-red-900/5">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">face_2</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Baseball Cap - Navy</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">HAT-012-NVY</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Accessories</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$15.00</td>
+<td class="px-6 py-2.5 text-center font-bold text-red-600 dark:text-red-400">3</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 dark:bg-red-900/20 px-2 py-0.5 text-xs font-medium text-red-700 dark:text-red-400 border border-red-100 dark:border-red-800 animate-pulse">
+<span class="size-1.5 rounded-full bg-red-500"></span> Critical
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group">
+<td class="px-6 py-2.5">
+<input class="rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="px-6 py-2.5">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400">
+<span class="material-symbols-outlined" style="font-size: 18px;">styler</span>
+</div>
+<span class="font-medium text-slate-900 dark:text-slate-100">Denim Jacket</span>
+</div>
+</td>
+<td class="px-6 py-2.5 text-slate-500 dark:text-slate-400 font-mono text-xs">JKT-342-IND</td>
+<td class="px-6 py-2.5 text-slate-600 dark:text-slate-300">Apparel</td>
+<td class="px-6 py-2.5 text-right font-medium text-slate-900 dark:text-white">$65.00</td>
+<td class="px-6 py-2.5 text-center text-slate-600 dark:text-slate-300">33</td>
+<td class="px-6 py-2.5">
+<span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 dark:bg-emerald-900/20 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> In Stock
+                                        </span>
+</td>
+<td class="px-6 py-2.5 text-right">
+<div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<button class="p-1 text-slate-400 hover:text-primary transition-colors" title="Edit">
+<span class="material-symbols-outlined" style="font-size: 18px;">edit</span>
+</button>
+<button class="p-1 text-slate-400 hover:text-red-500 transition-colors" title="Delete">
+<span class="material-symbols-outlined" style="font-size: 18px;">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="flex items-center justify-between border-t border-slate-200 dark:border-slate-700 px-6 py-3 bg-slate-50 dark:bg-slate-800">
+<div class="text-sm text-slate-500 dark:text-slate-400">
+                            Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">8</span> of <span class="font-medium text-slate-900 dark:text-white">128</span> results
+                        </div>
+<div class="flex gap-2">
+<button class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-1 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-50">Previous</button>
+<button class="rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-1 text-sm text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Next</button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-auto">
+<div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Items</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">1,420</p>
+</div>
+<div class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">inventory_2</span>
+</div>
+</div>
+<div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Low Stock</p>
+<p class="text-2xl font-bold text-red-600 dark:text-red-400 mt-1">12</p>
+</div>
+<div class="size-10 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500">
+<span class="material-symbols-outlined">warning</span>
+</div>
+</div>
+<div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Value</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$45.2k</p>
+</div>
+<div class="size-10 rounded-full bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-500">
+<span class="material-symbols-outlined">attach_money</span>
+</div>
+</div>
+<div class="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 shadow-sm flex items-center justify-between">
+<div>
+<p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Out of Stock</p>
+<p class="text-2xl font-bold text-slate-900 dark:text-white mt-1">5</p>
+</div>
+<div class="size-10 rounded-full bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-500">
+<span class="material-symbols-outlined">remove_shopping_cart</span>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+
+</body></html>

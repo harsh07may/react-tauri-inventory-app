@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "inventory-app",
+  "productName": "ShopManager Pro",
   "version": "0.1.0",
   "identifier": "com.harsh.inventory-app",
   "build": {
